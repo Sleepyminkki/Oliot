@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<body>
+<style>
+    body {
+        background-color: rgb(99, 195, 255);
+    }
+    button {
+        background-color: rgb(63, 63, 63);
+        color: white;
+        width: 150px;
+        height: 150px;
+    }
+    #lisä {
+        position: absolute;
+        left: 30%;
+        top: 20%;
+    }
+    #nosto {
+        position: absolute;
+        right: 30%;
+        top: 20%;
+    }
+    #saldo {
+        position: absolute;
+        left: 30%;
+        bottom: 20%;
+    }
+    #histo {
+        position: absolute;
+        right: 30%;
+        bottom: 20%;
+    }
+    #tili, #rahat {
+        text-align: center;
+        font-size: large;
+    }
+    #histori {
+        text-align: right;
+    }
+    #kaikki {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+    }
+    #kaik {
+        position: absolute;
+        top: 30%;
+        text-align: left;
+    }
+</style>
+</style>
+  <meta charset="utf-8">
+
+  <p id = "tili"></p>
+  <p id = "rahat"><span></span></p>
+  <p id = "histori"><span></span></p>
+  <p id = "kaik"></p>
+
+  <button id = "lisä" onclick = "num1();">Talleta</button>
+  <button id = "nosto" onclick = "num2();">Nosta</button>
+  <button id = "saldo" onclick = "num3();">Saldo</button>
+  <button id = "histo" onclick = "num4();">Historia</button>
+  <button id = "kaikki" onclick="Bank.näytäTiedot();">Näytä kaikki</button>
+
+ <script>
+
+    var tilinumero = prompt("Anna tilin-numero");
+    var nyt = "kk";
+    var saldo = 0;
+    var summa = 0;
+    var sald = [];
+    var historia = [];
+    var nostot = []; 
+
+    function aika() {
+    var pvm = new Date();
+    var vuo = pvm.getFullYear();
+    var kk = pvm.getMonth() + 1;
+    var pv = pvm.getDate();
+    var tun = pvm.getHours();
+    var min = pvm.getMinutes();
+    var min = (pvm.getMinutes() < 10? "0" : "") + pvm.getMinutes();
+    nyt = pv + "." + kk + "." + vuo + " " + tun + ":" + min;
+    lisää(nyt);
+    }
+    setInterval(aika, 100);
+
+    var luku = 0;
+
+    function num1() {
+        luku = 1;
+        lisää(luku);
+    }
+    function num2() {
+        luku = 2
+        lisää(luku);
+    }
+    function num3() {
+        luku = 3
+        lisää(luku);
+    }
+    function num4() {
+        luku = 4
+        lisää(luku);
+    }
+
+    function lisää() {
+        if (luku === 1) {
+           var määrä = prompt("Kuinka paljon rahaa haluat tallettaa?");
+           var num = parseInt(määrä);
+           sald.push(num);
+
+           var histoP = sald.slice(-1) + "€ lisätty " + nyt;
+           historia.push(histoP);
+
+            luku = 0;
+        }
+        else if (luku === 2) {
+           var nosto = prompt("Paljonko haluat nostaa?");
+           var nume = parseInt(nosto);
+           nostot.push(nume);
+
+              const nostaa = nostot.reduce((partialSum, a) => partialSum + a, 0);
+              summa = sald.reduce((partialSum, a) => partialSum + a, 0);
+              
+            summa = summa - nostaa;
+
+            var histoM = nostot.slice(-1) + "€ Nostettu " + nyt;
+           historia.push(histoM);
+
+            luku = 0;
+        }
+        else if (luku === 3) {
+              const nostaa = nostot.reduce((partialSum, a) => partialSum + a, 0);
+
+              summa = sald.reduce((partialSum, a) => partialSum + a, 0);
+              summa = summa - nostaa;
+             document.getElementById("rahat").innerHTML = this.summa + "€";
+
+            luku = 0;
+        }
+        else if (luku === 4) {
+             document.getElementById("histori").innerHTML = this.historia.join("<br>");
+
+            luku = 0;
+        }
+    }
+
+    class Pankki {
+    constructor(tilinumero, saldo, historia) {
+      this.tilinumero = tilinumero;
+      this.summa = saldo;
+      this.historia = historia;
+    }
+    numero() {
+        return "Tilin numero: " + this.tilinumero;
+    }
+    näytäTiedot() {
+        var kaikki = "Tilin numero: " + this.tilinumero + ". Saldo: " + this.summa + "€. H <br> Historia: " + this.historia.join("<br>");
+        document.getElementById("kaik").innerHTML = kaikki;
+    }
+  }
+  let Bank = new Pankki(tilinumero, summa, historia);
+  document.getElementById("tili").innerHTML = Bank.numero();
+
+ </script>
+</body>
+</html>
