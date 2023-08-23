@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="fin">
+<head>
+    <meta charset="utf-8">
+    <title>Pankki</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 <body>
 <style>
     body {
@@ -11,60 +16,101 @@
         width: 150px;
         height: 150px;
     }
-    #lisä {
-        position: absolute;
-        left: 30%;
-        top: 20%;
+    #buttonContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        height: 100%;
+        row-gap: 4px;
     }
-    #nosto {
-        position: absolute;
-        right: 30%;
-        top: 20%;
+    #tili {
+        font-size: 30px;
+        font-weight: bold;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
     }
-    #saldo {
-        position: absolute;
-        left: 30%;
-        bottom: 20%;
-    }
-    #histo {
-        position: absolute;
-        right: 30%;
-        bottom: 20%;
-    }
-    #tili, #rahat {
-        text-align: center;
-        font-size: large;
+    #rahat {
+        font-size: 30px;
+        font-weight: bold;
     }
     #histori {
-        text-align: right;
-    }
-    #kaikki {
-        position: absolute;
-        top: 0%;
-        left: 0%;
+        font-size: 30px;
+        font-weight: bold;
     }
     #kaik {
-        position: absolute;
-        top: 30%;
-        text-align: left;
+        font-size: 30px;
+        font-weight: bold;
     }
+    #kaikki {
+        background-color: rgb(63, 63, 63);
+        color: white;
+        width: 150px;
+        height: 150px;
+    }
+    #lisä {
+        background-color: rgb(63, 63, 63);
+        color: white;
+        width: 150px;
+        height: 150px;
+        flex-basis: 50%;
+    }
+    #nosto {
+        background-color: rgb(63, 63, 63);
+        color: white;
+        width: 150px;
+        height: 150px;
+        flex-basis: 50%;
+    }
+    #saldo {
+        background-color: rgb(63, 63, 63);
+        color: white;
+        width: 150px;
+        height: 150px;
+        flex-basis: 50%;
+    }
+    #histo {
+        background-color: rgb(63, 63, 63);
+        color: white;
+        width: 150px;
+        height: 150px;
+        flex-basis: 50%;
+    }
+    #kaikki {
+        background-color: rgb(63, 63, 63);
+        color: white;
+        width: 150px;
+        height: 150px;
+        flex-basis: 50%;
+    }
+    @media screen and (max-width: 600px) {
+        #buttonContainer {
+            flex-direction: column;
+            flex-wrap: nowrap;
+            row-gap: 10px;
+            height: 300px;
+        }
+        #lisä, #nosto, #saldo, #histo, #kaikki {
+            flex-basis: 100%;
+            height: 40em;
+        }
+    }
+
 </style>
-</style>
-  <meta charset="utf-8">
-
-  <p id = "tili"></p>
-  <p id = "rahat"><span></span></p>
-  <p id = "histori"><span></span></p>
-  <p id = "kaik"></p>
-
-  <button id = "lisä" onclick = "num1();">Talleta</button>
-  <button id = "nosto" onclick = "num2();">Nosta</button>
-  <button id = "saldo" onclick = "num3();">Saldo</button>
-  <button id = "histo" onclick = "num4();">Historia</button>
-  <button id = "kaikki" onclick="Bank.näytäTiedot();">Näytä kaikki</button>
-
+    <p id = "tili"></p>
+    <p id = "rahat"></p>
+    <p id = "histori"></p>
+    <p id = "kaik"></p>
+    <div id="buttonContainer">
+        <button id = "lisä" onclick = "num1();">Talleta</button>
+        <button id = "nosto" onclick = "num2();">Nosta</button>
+        <button id = "saldo" onclick = "num3();">Saldo</button>
+        <button id = "histo" onclick = "num4();">Historia</button>
+        <button id = "kaikki" onclick="Bank.näytäTiedot();">Näytä kaikki</button>
+    </div>
  <script>
-
     var tilinumero = prompt("Anna tilin-numero");
     var nyt = "kk";
     var saldo = 0;
@@ -72,7 +118,6 @@
     var sald = [];
     var historia = [];
     var nostot = []; 
-
     function aika() {
     var pvm = new Date();
     var vuo = pvm.getFullYear();
@@ -85,9 +130,7 @@
     lisää(nyt);
     }
     setInterval(aika, 100);
-
     var luku = 0;
-
     function num1() {
         luku = 1;
         lisää(luku);
@@ -104,49 +147,39 @@
         luku = 4
         lisää(luku);
     }
-
     function lisää() {
         if (luku === 1) {
            var määrä = prompt("Kuinka paljon rahaa haluat tallettaa?");
            var num = parseInt(määrä);
            sald.push(num);
-
            var histoP = sald.slice(-1) + "€ lisätty " + nyt;
            historia.push(histoP);
-
             luku = 0;
         }
         else if (luku === 2) {
            var nosto = prompt("Paljonko haluat nostaa?");
            var nume = parseInt(nosto);
            nostot.push(nume);
-
               const nostaa = nostot.reduce((partialSum, a) => partialSum + a, 0);
               summa = sald.reduce((partialSum, a) => partialSum + a, 0);
-              
-            summa = summa - nostaa;
-
+            summa =- nostaa;
+             document.getElementById("rahat").innerHTML = this.summa + "€";
             var histoM = nostot.slice(-1) + "€ Nostettu " + nyt;
            historia.push(histoM);
-
             luku = 0;
         }
         else if (luku === 3) {
               const nostaa = nostot.reduce((partialSum, a) => partialSum + a, 0);
-
               summa = sald.reduce((partialSum, a) => partialSum + a, 0);
               summa = summa - nostaa;
              document.getElementById("rahat").innerHTML = this.summa + "€";
-
             luku = 0;
         }
         else if (luku === 4) {
              document.getElementById("histori").innerHTML = this.historia.join("<br>");
-
             luku = 0;
         }
     }
-
     class Pankki {
     constructor(tilinumero, saldo, historia) {
       this.tilinumero = tilinumero;
@@ -163,7 +196,6 @@
   }
   let Bank = new Pankki(tilinumero, summa, historia);
   document.getElementById("tili").innerHTML = Bank.numero();
-
  </script>
 </body>
 </html>
